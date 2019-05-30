@@ -1,31 +1,47 @@
-const { createStore } = Redux;
+const { createStore, combineReducers } = Redux;
 
-function countVotes(state, action) {
-  if (!state) {
-    state = {
-      warriors: 0,
-      raptors: 0,
-      lebron: 0,
-    };
+
+function countWarriorVote(state, action) {
+  let newState = state;
+  if (!newState) {
+    newState = 0;
   }
-  const { type } = action;
-  const newState = Object.assign(state);
-  if (type === 'VOTE_WARRIORS') {
-    newState.warriors += 1;
-  } else if (type === 'VOTE_RAPTORS') {
-    newState.raptors += 1;
-  } else if (type === 'VOTE_LEBRON') {
-    newState.lebron += 1;
-  } else if (type === 'RESET') {
-    newState.warriors = 0;
-    newState.raptors = 0;
-    newState.lebron = 0;
+  if (action.type === 'VOTE_WARRIORS') {
+    newState += 1;
   }
   return newState;
 }
 
 
-let store = createStore(countVotes);
+function countRaptorVote(state, action) {
+  let newState = state;
+  if (!newState) {
+    newState = 0;
+  }
+  if (action.type === 'VOTE_RAPTORS') {
+    newState += 1;
+  }
+  return newState;
+}
+
+function countLebronVote(state, action) {
+  let newState = state;
+  if (!newState) {
+    newState = 0;
+  }
+  if (action.type === 'VOTE_LEBRON') {
+    newState += 1;
+  }
+  return newState;
+}
+
+const rootReducer = combineReducers({
+  warriors: countWarriorVote,
+  raptors: countRaptorVote,
+  lebron: countLebronVote,
+});
+
+const store = createStore(rootReducer);
 
 const warriorCount = document.querySelector('.warrior_votes');
 const raptorCount = document.querySelector('.raptor_votes');
