@@ -1,6 +1,5 @@
 const { createStore, combineReducers } = Redux;
 
-
 function countWarriorVote(state, action) {
   let newState = state;
   if (!newState) {
